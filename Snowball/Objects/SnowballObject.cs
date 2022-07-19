@@ -43,6 +43,7 @@ namespace Snowball.Objects
             rigidbody = gameObject.AddComponent<Rigidbody>();
             _fpfc = Resources.FindObjectsOfTypeAll<FirstPersonFlyingController>().FirstOrDefault();
             _vrPointer = Resources.FindObjectsOfTypeAll<VRPointer>().FirstOrDefault();
+            rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
         }
 
         public void Destroy()
@@ -105,12 +106,15 @@ namespace Snowball.Objects
 
             if (_grabbingController == null || !IsFpfc && _grabbingController.triggerValue > 0.9f || IsFpfc && Input.GetMouseButton(0))
                 return;
+
+            //grab end
             var pos = _grabbingController.transform.TransformPoint(_grabPos);
             var rot = _grabbingController.transform.rotation * _grabRot;
             rigidbody.velocity = (pos - transform.position) / Time.deltaTime;
             rigidbody.angularVelocity = (rot * Quaternion.Inverse(transform.rotation)).eulerAngles / Time.deltaTime;
             transform.position = pos;
             transform.rotation = rot;
+
             _grabbingController = null!;
             IsGrabbed = false;
             rigidbody.useGravity = true;
