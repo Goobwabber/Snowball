@@ -1,6 +1,4 @@
-﻿using SiraUtil.Extras;
-using SiraUtil.Objects.Multiplayer;
-using Snowball.Networking;
+﻿using Snowball.Managers;
 using Snowball.Objects;
 using UnityEngine;
 using Zenject;
@@ -20,20 +18,10 @@ namespace Snowball.Installers
         public override void InstallBindings()
         {
             Container.BindInstance(_config).AsSingle();
-            Container.BindInterfacesAndSelfTo<SnowballPacketHandler>().AsSingle();
-            Container.Bind<LocalSnowball>().ToSelf()
+            Container.BindInterfacesAndSelfTo<SnowballManager>().AsSingle();
+            Container.BindInterfacesAndSelfTo<SnowballSpawner>()
                 .FromNewComponentOn(GameObject.CreatePrimitive(PrimitiveType.Sphere))
                 .AsSingle().NonLazy();
-
-            Container.RegisterRedecorator(new LobbyAvatarRegistration(DecorateAvatar));
-        }
-
-        private MultiplayerLobbyAvatarController DecorateAvatar(MultiplayerLobbyAvatarController original)
-        {
-            var snowball = GameObject.CreatePrimitive(PrimitiveType.Sphere).AddComponent<ConnectedSnowball>();
-            snowball.transform.SetParent(original.transform);
-
-            return original;
         }
     }
 }
