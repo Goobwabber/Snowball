@@ -81,7 +81,7 @@ namespace Snowball.Objects
             if (gameObject.activeInHierarchy)
                 return;
             _snowballManager.RemoveSnowball(id);
-            Destroy(this);
+            Destroy(gameObject);
         }
 
         protected void Update()
@@ -133,7 +133,7 @@ namespace Snowball.Objects
             if (transform.position.y < MinYPosition || transform.position.magnitude >= MaxDistance)
             {
                 _snowballManager.RemoveSnowball(id);
-                Destroy(this);
+                Destroy(gameObject);
             }
 
             if (_grabbingController == null)

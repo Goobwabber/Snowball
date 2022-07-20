@@ -7,6 +7,7 @@
   "description": "",
   "gameVersion": "1.24.0",
   "dependsOn": {
-    "BSIPA": "^4.2.0"
+    "BSIPA": "^4.2.0",
+    "MultiplayerCore": "^1.0.0"
   }
 }
